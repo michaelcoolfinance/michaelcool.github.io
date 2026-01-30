@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Financial - Financial Analysis for Small Businesses</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --charcoal: #1a1a1a;
+            --warm-white: #f8f6f2;
+            --sage: #7a8f7e;
+            --rust: #a64b2a;
+            --cream: #e8e4dc;
+            --steel: #4a5859;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--warm-white);
+            color: var(--charcoal);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            background: var(--charcoal);
+            color: var(--warm-white);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--sage);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        nav a {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--cream);
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--sage);
+        }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--charcoal);
+        }
+
+        h1 strong {
+            font-weight: 600;
+            color: var(--rust);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--steel);
+            max-width: 700px;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .credentials {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--sage);
+            letter-spacing: 0.03em;
+        }
+
+        .services {
+            padding: 5rem 0;
+            background: var(--warm-white);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 3rem;
+            color: var(--charcoal);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--rust);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border: 1px solid var(--cream);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .service-card h3 {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--rust);
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
+        }
+
+        .service-card p {
+            font-size: 1.05rem;
+            color: var(--steel);
+            line-height: 1.7;
+        }
+
+        .work-sample {
+            padding: 5rem 0;
+            background: var(--charcoal);
+            color: var(--warm-white);
+        }
+
+        .work-sample h2 {
+            color: var(--warm-white);
+        }
+
+        .sample-intro {
+            font-size: 1.15rem;
+            color: var(--cream);
+            max-width: 800px;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .chart-container {
+            background: rgba(255,255,255,0.03);
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .chart-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--sage);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        canvas {
+            max-height: 300px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .kpi-card {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-left: 3px solid var(--rust);
+        }
+
+        .kpi-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--sage);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--warm-white);
+        }
+
+        .process {
+            padding: 5rem 0;
+            background: var(--cream);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            position: relative;
+        }
+
+        .step-number {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--rust);
+            opacity: 0.3;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--charcoal);
+        }
+
+        .step p {
+            color: var(--steel);
+            line-height: 1.7;
+        }
+
+        .pricing {
+            padding: 5rem 0;
+            background: var(--warm-white);
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2.5rem;
+            border: 1px solid var(--cream);
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--rust);
+        }
+
+        .pricing-card h3 {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--rust);
+            margin-bottom: 1rem;
+            letter-spacing: 0.03em;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin: 1rem 0;
+        }
+
+        .price-note {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--steel);
+            margin-bottom: 2rem;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-card li {
+            padding: 0.5rem 0;
+            color: var(--steel);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .pricing-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--sage);
+        }
+
+        .contact {
+            padding: 5rem 0;
+            background: var(--charcoal);
+            color: var(--warm-white);
+            text-align: center;
+        }
+
+        .contact h2 {
+            color: var(--warm-white);
+            margin-bottom: 2rem;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--warm-white);
+            font-family: 'Crimson Pro', serif;
+            font-size: 1rem;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(248,246,242,0.5);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--rust);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+
+        .contact-form button {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--rust);
+            color: var(--warm-white);
+            border: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .contact-form button:hover {
+            background: #8a3721;
+        }
+
+        footer {
+            background: var(--charcoal);
+            color: var(--sage);
+            padding: 2rem 0;
+            text-align: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav a {
+                margin-left: 1rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">COOL FINANCIAL</div>
+                <nav>
+                    <a href="#services">Services</a>
+                    <a href="#work">Work</a>
+                    <a href="#process">Process</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Financial clarity for <strong>small businesses</strong> that don't need a full-time CFO</h1>
+            <p class="subtitle">Most small businesses have a bookkeeper who looks backward. I help you look forward—with pricing models, cash flow forecasts, and profitability analysis that actually inform decisions.</p>
+            <div class="credentials">Finance Major, UTK · CFA Candidate</div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <h2>What I Do</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3>Pricing Audit</h3>
+                    <p>Calculate true unit economics—labor, materials, overhead—to ensure every product is profitable. Stop losing money without knowing it.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Cash Flow Forecasting</h3>
+                    <p>13-week runway projections so you know exactly when cash crunches are coming and can plan accordingly.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Profitability Analysis</h3>
+                    <p>Clean P&L statements with percentage breakdowns. Understand which parts of your business actually make money.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Expense Audits</h3>
+                    <p>Line-by-line review to catch recurring charges, vendor overpayments, and inefficiencies draining your margins.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Scenario Planning</h3>
+                    <p>Model best case, worst case, and inflation scenarios. See the impact of decisions before you make them.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Visual Dashboards</h3>
+                    <p>Turn ugly spreadsheets into clean, one-page dashboards with the metrics that matter. No accounting degree required.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="work" class="work-sample">
+        <div class="container">
+            <h2>Sample Analysis</h2>
+            <p class="sample-intro">This is what a typical monthly deliverable looks like. A local coffee shop sent me raw bank statements and basic sales data. I built a complete financial model showing profitability by product, cash flow trends, and identified a $5,000/year pricing opportunity they were missing.</p>
+            
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">TOTAL REVENUE</div>
+                    <div class="kpi-value">$93.4k</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">NET PROFIT</div>
+                    <div class="kpi-value">$23.1k</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">PROFIT MARGIN</div>
+                    <div class="kpi-value">24.7%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">LABOR EFFICIENCY</div>
+                    <div class="kpi-value">13.7%</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-title">PRODUCT PROFITABILITY</div>
+                    <canvas id="profitChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">MARGIN BY PRODUCT</div>
+                    <canvas id="marginChart"></canvas>
+                </div>
+            </div>
+
+            <div class="charts-grid" style="margin-top: 3rem;">
+                <div class="chart-container">
+                    <div class="chart-title">REVENUE BY CATEGORY</div>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">EXPENSE BREAKDOWN</div>
+                    <canvas id="expenseChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="process" class="process">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <h3>Send Your Data</h3>
+                    <p>Bank statements, sales records, or QuickBooks access. I work with whatever data you have—even if it's messy.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <h3>I Build Your Model</h3>
+                    <p>Clean the data, categorize expenses, build formulas, and create visual dashboards tailored to your business.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <h3>You Get Insights</h3>
+                    <p>A 3-5 minute Loom video walking through your numbers, highlighting red flags, and recommending specific actions.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">04</div>
+                    <h3>Monthly Updates</h3>
+                    <p>Refresh the model each month, track trends over time, and adjust strategy as your business evolves.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2>Pricing</h2>
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>ONE-TIME AUDIT</h3>
+                    <div class="price">$800</div>
+                    <div class="price-note">Initial setup</div>
+                    <ul>
+                        <li>Complete data cleanup</li>
+                        <li>Custom financial model</li>
+                        <li>Profitability analysis</li>
+                        <li>Pricing audit</li>
+                        <li>Initial strategy video</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>MONTHLY RETAINER</h3>
+                    <div class="price">$500</div>
+                    <div class="price-note">Per month</div>
+                    <ul>
+                        <li>Monthly data refresh</li>
+                        <li>Updated dashboards</li>
+                        <li>5-minute Loom video</li>
+                        <li>One deep-dive analysis</li>
+                        <li>Email support</li>
+                        <li>Trend tracking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Get Started</h2>
+            <p style="color: var(--cream); font-size: 1.1rem; margin-bottom: 3rem;">Send me your messiest spreadsheet or last 3 months of bank statements. I'll analyze one month for free and show you what insights are hiding in your data.</p>
+            
+            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="form-row">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                </div>
+                <input type="text" name="business" placeholder="Business Name" required>
+                <textarea name="message" placeholder="Tell me about your business and what financial questions keep you up at night..." rows="5" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+            
+            <p style="margin-top: 3rem; color: var(--sage); font-size: 0.95rem;">
+                Or email directly: <a href="mailto:michael.cooladvisory@gmail.com" style="color: var(--rust); text-decoration: none; border-bottom: 1px solid var(--rust);">michael.cooladvisory@gmail.com</a>
+            </p>
+            <p style="margin-top: 0.5rem; color: var(--sage); font-size: 0.95rem;">
+                Based in Knoxville, Tennessee
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            © 2025 Cool Financial · Financial Analysis for Small Businesses
+        </div>
+    </footer>
+
+    <script>
+        // Product Profitability Chart
+        const profitCtx = document.getElementById('profitChart').getContext('2d');
+        new Chart(profitCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Drip Coffee', 'Latte 16oz', 'Cold Brew', 'Cappuccino', 'Mocha', 'Americano'],
+                datasets: [{
+                    label: 'Gross Profit ($)',
+                    data: [3517.69, 3410.1, 1995.84, 1637.01, 1598.79, 976.56],
+                    backgroundColor: 'rgba(166, 75, 42, 0.7)',
+                    borderColor: 'rgba(166, 75, 42, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgba(248, 246, 242, 0.7)',
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    x: {
+                        ticks: { color: 'rgba(248, 246, 242, 0.7)' },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Margin Chart
+        const marginCtx = document.getElementById('marginChart').getContext('2d');
+        new Chart(marginCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Drip Coffee', 'Cookie', 'Espresso', 'Bagel', 'Cold Brew', 'Cappuccino'],
+                datasets: [{
+                    label: 'Profit Margin (%)',
+                    data: [87.1, 82.0, 81.4, 78.3, 74.1, 73.7],
+                    backgroundColor: 'rgba(122, 143, 126, 0.7)',
+                    borderColor: 'rgba(122, 143, 126, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            color: 'rgba(248, 246, 242, 0.7)',
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    x: {
+                        ticks: { color: 'rgba(248, 246, 242, 0.7)' },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Revenue by Category Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Coffee Drinks', 'Food Items', 'Specialty Drinks'],
+                datasets: [{
+                    data: [58234, 12543, 22651],
+                    backgroundColor: [
+                        'rgba(166, 75, 42, 0.8)',
+                        'rgba(122, 143, 126, 0.8)',
+                        'rgba(74, 88, 89, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(166, 75, 42, 1)',
+                        'rgba(122, 143, 126, 1)',
+                        'rgba(74, 88, 89, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(248, 246, 242, 0.9)',
+                            padding: 15,
+                            font: { size: 12 }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Expense Breakdown Chart
+        const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+        new Chart(expenseCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Labor', 'Rent', 'COGS', 'Utilities', 'Marketing', 'Technology'],
+                datasets: [{
+                    data: [12800, 2500, 2340, 894, 150, 125],
+                    backgroundColor: [
+                        'rgba(166, 75, 42, 0.9)',
+                        'rgba(122, 143, 126, 0.9)',
+                        'rgba(74, 88, 89, 0.9)',
+                        'rgba(166, 75, 42, 0.6)',
+                        'rgba(122, 143, 126, 0.6)',
+                        'rgba(74, 88, 89, 0.6)'
+                    ],
+                    borderColor: '#1a1a1a',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(248, 246, 242, 0.9)',
+                            padding: 15,
+                            font: { size: 12 }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
