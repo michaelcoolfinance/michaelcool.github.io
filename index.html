@@ -77,7 +77,15 @@
             background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
         }
 
-        h1 {
+        .hero-grid {
+            display: grid;
+            /* Changed from 280px to 350px to make photo bigger */
+            grid-template-columns: 1fr 350px;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
             font-size: 3.5rem;
             font-weight: 300;
             line-height: 1.2;
@@ -85,7 +93,7 @@
             color: var(--charcoal);
         }
 
-        h1 strong {
+        .hero-content h1 strong {
             font-weight: 600;
             color: var(--rust);
         }
@@ -103,6 +111,40 @@
             font-size: 0.85rem;
             color: var(--sage);
             letter-spacing: 0.03em;
+        }
+
+        .photo-container {
+            position: relative;
+            border: 1px solid var(--charcoal);
+            background: white;
+            padding: 0.75rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .photo-placeholder {
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #e8e4dc 0%, #7a8f7e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-note {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--sage);
+            margin-top: 0.5rem;
+            text-align: center;
+            letter-spacing: 0.02em;
         }
 
         .services {
@@ -234,9 +276,60 @@
             color: var(--warm-white);
         }
 
-        .process {
+        .about-section {
             padding: 5rem 0;
             background: var(--cream);
+        }
+
+        .about-text {
+            font-size: 1.15rem;
+            color: var(--steel);
+            max-width: 800px;
+            margin: 3rem 0;
+            line-height: 1.8;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text strong {
+            color: var(--charcoal);
+            font-weight: 600;
+        }
+
+        .credentials-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin-top: 2rem;
+        }
+
+        .credential-item {
+            background: white;
+            padding: 1.5rem;
+            border-left: 3px solid var(--rust);
+        }
+
+        .credential-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--sage);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .credential-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            line-height: 1.5;
+        }
+
+        .process {
+            padding: 5rem 0;
+            background: var(--warm-white);
         }
 
         .process-steps {
@@ -273,7 +366,12 @@
 
         .pricing {
             padding: 5rem 0;
-            background: var(--warm-white);
+            background: var(--charcoal);
+            color: var(--warm-white);
+        }
+
+        .pricing h2 {
+            color: var(--warm-white);
         }
 
         .pricing-cards {
@@ -287,9 +385,9 @@
         }
 
         .pricing-card {
-            background: white;
+            background: rgba(255,255,255,0.03);
             padding: 2.5rem;
-            border: 1px solid var(--cream);
+            border: 1px solid rgba(255,255,255,0.1);
             position: relative;
         }
 
@@ -309,14 +407,14 @@
         .price {
             font-size: 3rem;
             font-weight: 600;
-            color: var(--charcoal);
+            color: var(--warm-white);
             margin: 1rem 0;
         }
 
         .price-note {
             font-family: 'IBM Plex Mono', monospace;
             font-size: 0.8rem;
-            color: var(--steel);
+            color: var(--sage);
             margin-bottom: 2rem;
         }
 
@@ -327,7 +425,7 @@
 
         .pricing-card li {
             padding: 0.5rem 0;
-            color: var(--steel);
+            color: var(--cream);
             position: relative;
             padding-left: 1.5rem;
         }
@@ -341,13 +439,12 @@
 
         .contact {
             padding: 5rem 0;
-            background: var(--charcoal);
-            color: var(--warm-white);
+            background: var(--warm-white);
             text-align: center;
         }
 
         .contact h2 {
-            color: var(--warm-white);
+            color: var(--charcoal);
             margin-bottom: 2rem;
         }
 
@@ -368,24 +465,23 @@
         .contact-form textarea {
             width: 100%;
             padding: 1rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: var(--warm-white);
+            background: white;
+            border: 1px solid var(--cream);
+            color: var(--charcoal);
             font-family: 'Crimson Pro', serif;
             font-size: 1rem;
-            transition: border-color 0.3s, background 0.3s;
+            transition: border-color 0.3s;
         }
 
         .contact-form input::placeholder,
         .contact-form textarea::placeholder {
-            color: rgba(248,246,242,0.5);
+            color: rgba(74,88,89,0.6);
         }
 
         .contact-form input:focus,
         .contact-form textarea:focus {
             outline: none;
             border-color: var(--rust);
-            background: rgba(255,255,255,0.08);
         }
 
         .contact-form textarea {
@@ -422,7 +518,11 @@
         }
 
         @media (max-width: 768px) {
-            h1 {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
                 font-size: 2.5rem;
             }
 
@@ -444,6 +544,7 @@
                 <div class="logo">COOL FINANCIAL</div>
                 <nav>
                     <a href="#services">Services</a>
+                    <a href="#about">About</a>
                     <a href="#work">Work</a>
                     <a href="#process">Process</a>
                     <a href="#pricing">Pricing</a>
@@ -455,9 +556,23 @@
 
     <section class="hero">
         <div class="container">
-            <h1>Financial clarity for <strong>small businesses</strong> that don't need a full-time CFO</h1>
-            <p class="subtitle">Most small businesses have a bookkeeper who looks backward. I help you look forward—with pricing models, cash flow forecasts, and profitability analysis that actually inform decisions.</p>
-            <div class="credentials">Finance Major, UTK · CFA Candidate</div>
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <h1>Financial clarity for <strong>coffee shops & bakeries</strong> that don't need a full-time CFO</h1>
+                    <p class="subtitle">Most coffee shops have a bookkeeper who looks backward. I help you look forward—with menu profitability analysis, pricing models, cash flow forecasts, and profitability insights that actually inform decisions.</p>
+                    <div class="credentials">Finance Major, UTK · Series 65 · CFA Level 1 Candidate</div>
+                </div>
+                <div>
+                    <div class="photo-container">
+                        <div class="photo-placeholder">
+                            
+                            <img src="" alt="Michael Cool" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+                            
+                        </div>
+                        <div class="photo-note">Michael Cool</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -541,6 +656,42 @@
         </div>
     </section>
 
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2>About</h2>
+            <div class="about-text">
+                <p>
+                    I'm a finance major at UT Knoxville, currently studying for the CFA Level 1 exam. I also hold my Series 65 license.
+                </p>
+                <p>
+                    I apply the same <strong>rigorous financial modeling</strong> used in institutional finance to the local coffee scene. While many shops run on "gut feel," I use data to uncover hidden profit drains. My approach brings big-business clarity to small business operations—focusing on <strong>menu profitability, seasonal cash flow, and true ingredient costs.</strong>
+                </p>
+                <p>
+                    I'm building a specialized portfolio of coffee shops and bakeries in Knoxville and Nashville. To do this, I'm offering <strong>free menu profitability audits</strong> to a select group of owners this quarter. You get actionable insights to stop leaks in your margins; I get to demonstrate the power of institutional-grade analysis.
+                </p>
+            </div>
+
+            <div class="credentials-list">
+                <div class="credential-item">
+                    <div class="credential-label">EDUCATION</div>
+                    <div class="credential-value">UT Haslam, Finance Major<br>Graduating December 2026</div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-label">CREDENTIALS</div>
+                    <div class="credential-value">Series 65 License<br>CFA Level 1 Candidate (Aug 2026)</div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-label">LOCATION</div>
+                    <div class="credential-value">Knoxville, Tennessee<br>Serving Nashville metro</div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-label">SPECIALTY</div>
+                    <div class="credential-value">Coffee Shops & Bakeries<br>Cafes</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="process" class="process">
         <div class="container">
             <h2>How It Works</h2>
@@ -604,8 +755,8 @@
 
     <section id="contact" class="contact">
         <div class="container">
-            <h2>Get Started</h2>
-            <p style="color: var(--cream); font-size: 1.1rem; margin-bottom: 3rem;">Send me your messiest spreadsheet or last 3 months of bank statements. I'll analyze one month for free and show you what insights are hiding in your data.</p>
+            <h2>Contact</h2>
+            <p style="color: var(--steel); font-size: 1.1rem; margin-bottom: 3rem;">Send me your messiest spreadsheet or last 3 months of bank statements. I'll analyze one month for free and show you what insights are hiding in your data.</p>
             
             <form class="contact-form" action="https://formspree.io/f/xbdywpjq" method="POST">
                 <div class="form-row">
@@ -628,7 +779,7 @@
 
     <footer>
         <div class="container">
-            © 2025 Cool Financial · Financial Analysis for Small Businesses
+            © 2026 Cool Financial · Financial Analysis for Small Businesses
         </div>
     </footer>
 
